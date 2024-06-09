@@ -43,14 +43,8 @@ class MarketplacePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Header2(txt: 'Marketplace', clr: AppTheme.primaryColor),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.login, color: AppTheme.primaryColor),
-            onPressed: () {
-              Get.to(() => Login());
-            },
-          ),
-        ],
+        
+        
       ),
       body: Column(
         children: [

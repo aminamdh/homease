@@ -66,8 +66,8 @@ class SplashScreen extends StatelessWidget {
         nextRoute: "/market",
         splash: Image.asset(
           'assets/images/logo.png',
-          width: 100.w,
-          height: 100.h,
+          width: 400.w,
+          height: 400.h,
         ),
         nextScreen: Container(),
 

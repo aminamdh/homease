@@ -6,6 +6,7 @@ import 'package:homease/views/pages/account.dart';
 import 'package:homease/views/pages/complaints.dart';
 import 'package:homease/views/pages/messages.dart';
 import 'package:homease/views/pages/reminder.dart';
+import 'package:homease/views/pages/market.dart';  // Importez votre page de marché ici
 import 'package:homease/core/models/news_model.dart';
 import 'package:homease/views/widgets/text.dart';
 
@@ -199,6 +200,12 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.account_circle),
             label: 'Account',
           ),
+          BottomNavigationBarItem(  // Ajoutez ce nouvel item
+            icon: ImageIcon(
+              AssetImage('assets/icons/market.png'),
+            ),
+            label: 'Market',
+          ),
         ],
         onTap: (index) {
           switch (index) {
@@ -216,6 +223,9 @@ class _HomePageState extends State<HomePage> {
               break;
             case 4:
               Get.to(() => AccountSettingsPage());
+              break;
+            case 5:  // Nouveau cas pour la page du marché
+              Get.to(() => MarketplacePage());
               break;
             default:
               break;
