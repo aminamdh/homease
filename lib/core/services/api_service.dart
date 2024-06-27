@@ -9,6 +9,7 @@ class ApiService {
     const String url = 'http://homease.tech/api/posts';
     try {
       final response = await _dio.get(url);
+      print('Fetch News Response: ${response.data}'); // Debug print
       if (response.statusCode == 200) {
         List<dynamic> data = response.data['posts'];
         return data.map((json) => News.fromJson(json)).toList();
@@ -16,21 +17,23 @@ class ApiService {
         throw Exception('Failed to load posts');
       }
     } catch (e) {
+      print('Fetch News Error: $e'); // Debug print
       throw Exception('Failed to load posts: $e');
     }
   }
 
   Future<void> addComment(int postId, String comment) async {
-    const String url = 'http://homease.tech/api/posts/{id}';
+    final String url = 'http://homease.tech/api/posts/$postId';
     try {
       final response = await _dio.post(url, data: {
-        'post_id': postId,
         'comment': comment,
       });
+      print('Add Comment Response: ${response.data}'); // Debug print
       if (response.statusCode != 200) {
         throw Exception('Failed to add comment');
       }
     } catch (e) {
+      print('Add Comment Error: $e'); // Debug print
       throw Exception('Failed to add comment: $e');
     }
   }
@@ -39,6 +42,7 @@ class ApiService {
     const String url = 'http://homease.tech/api/properties';
     try {
       final response = await _dio.get(url);
+      print('Fetch Posts Response: ${response.data}'); // Debug print
       if (response.statusCode == 200) {
         List<dynamic> properties = response.data['properties'];
         return properties.map((property) => Post.fromJson(property)).toList();
@@ -46,6 +50,7 @@ class ApiService {
         throw Exception('Failed to load posts with status code: ${response.statusCode}');
       }
     } catch (e) {
+      print('Fetch Posts Error: $e'); // Debug print
       throw Exception('Failed to load posts: $e');
     }
   }
@@ -57,12 +62,14 @@ class ApiService {
         'username': username,
         'password': password,
       });
+      print('Login Response: ${response.data}'); // Debug print
       if (response.statusCode == 200) {
         return response.data;
       } else {
         throw Exception('Failed to login with status code: ${response.statusCode}');
       }
     } catch (e) {
+      print('Login Error: $e'); // Debug print
       throw Exception('Failed to login: $e');
     }
   }

@@ -64,51 +64,49 @@ class Post {
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
-    double? avgRating = json['average_rating'] is int
-        ? (json['average_rating'] as int).toDouble()
-        : json['average_rating'] is double
-            ? json['average_rating']
-            : null;
+    double parseDouble(dynamic value) {
+      if (value is double) {
+        return value;
+      } else if (value is int) {
+        return value.toDouble();
+      } else if (value is String) {
+        return double.tryParse(value) ?? 0.0;
+      } else {
+        return 0.0; // Default value if none of the conditions are met
+      }
+    }
 
     return Post(
-      id: json['id'],
-      title: json['title'],
-      slug: json['slug'],
-      price: json['price'],
-      featured: json['featured'],
-      purpose: json['purpose'],
-      type: json['type'],
-      image: json['image'],
-      bedroom: json['bedroom'],
-      bathroom: json['bathroom'],
-      city: json['city'],
-      citySlug: json['city_slug'],
-      address: json['address'],
-      area: json['area'],
-      agentId: json['agent_id'],
-      description: json['description'],
-      video: json['video'],
-      floorPlan: json['floor_plan'],
-      locationLatitude: json['location_latitude'],
-      locationLongitude: json['location_longitude'],
-      nearby: json['nearby'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      imageUrl: json['image_url'],
-      floorPlanUrl: json['floor_plan_url'],
-      averageRating: avgRating ?? 0.0,
-      gallery: (json['gallery'] as List)
-          .map((item) => Gallery.fromJson(item))
-          .toList(),
-      features: (json['features'] as List)
-          .map((item) => Feature.fromJson(item))
-          .toList(),
-      comments: (json['comments'] as List)
-          .map((item) => Comment.fromJson(item))
-          .toList(),
-      rating: (json['rating'] as List)
-          .map((item) => Rating.fromJson(item))
-          .toList(),
+      id: json['id'] ?? 0,
+      title: json['title'] ?? '',
+      slug: json['slug'] ?? '',
+      price: json['price'] ?? 0,
+      featured: json['featured'] ?? 0,
+      purpose: json['purpose'] ?? '',
+      type: json['type'] ?? '',
+      image: json['image'] ?? '',
+      bedroom: json['bedroom'] ?? 0,
+      bathroom: json['bathroom'] ?? 0,
+      city: json['city'] ?? '',
+      citySlug: json['city_slug'] ?? '',
+      address: json['address'] ?? '',
+      area: json['area'] ?? 0,
+      agentId: json['agent_id'] ?? 0,
+      description: json['description'] ?? '',
+      video: json['video'] ?? '',
+      floorPlan: json['floor_plan'] ?? '',
+      locationLatitude: json['location_latitude'] ?? '',
+      locationLongitude: json['location_longitude'] ?? '',
+      nearby: json['nearby'] ?? '',
+      createdAt: json['created_at'] ?? '',
+      updatedAt: json['updated_at'] ?? '',
+      imageUrl: json['image_url'] ?? '',
+      floorPlanUrl: json['floor_plan_url'] ?? '',
+      averageRating: parseDouble(json['average_rating']),
+      gallery: (json['gallery'] as List).map((item) => Gallery.fromJson(item)).toList(),
+      features: (json['features'] as List).map((item) => Feature.fromJson(item)).toList(),
+      comments: (json['comments'] as List).map((item) => Comment.fromJson(item)).toList(),
+      rating: (json['rating'] as List).map((item) => Rating.fromJson(item)).toList(),
     );
   }
 }
@@ -134,13 +132,13 @@ class Gallery {
 
   factory Gallery.fromJson(Map<String, dynamic> json) {
     return Gallery(
-      id: json['id'],
-      propertyId: json['property_id'],
-      name: json['name'],
-      size: json['size'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      imageUrl: json['image_url'],
+      id: json['id'] ?? 0,
+      propertyId: json['property_id'] ?? 0,
+      name: json['name'] ?? '',
+      size: json['size'] ?? '',
+      createdAt: json['created_at'] ?? '',
+      updatedAt: json['updated_at'] ?? '',
+      imageUrl: json['image_url'] ?? '',
     );
   }
 }
@@ -158,9 +156,9 @@ class Feature {
 
   factory Feature.fromJson(Map<String, dynamic> json) {
     return Feature(
-      id: json['id'],
-      name: json['name'],
-      slug: json['slug'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      slug: json['slug'] ?? '',
     );
   }
 }
@@ -196,17 +194,17 @@ class Comment {
 
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
-      id: json['id'],
-      body: json['body'],
-      commentableId: json['commentable_id'],
-      commentableType: json['commentable_type'],
-      userId: json['user_id'],
-      parent: json['parent'],
+      id: json['id'] ?? 0,
+      body: json['body'] ?? '',
+      commentableId: json['commentable_id'] ?? 0,
+      commentableType: json['commentable_type'] ?? '',
+      userId: json['user_id'] ?? 0,
+      parent: json['parent'] ?? 0,
       parentId: json['parent_id'],
-      approved: json['approved'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      userName: json['user_name'],
+      approved: json['approved'] ?? 0,
+      createdAt: json['created_at'] ?? '',
+      updatedAt: json['updated_at'] ?? '',
+      userName: json['user_name'] ?? '',
       user: User.fromJson(json['user']),
     );
   }
@@ -251,13 +249,13 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
-      roleId: json['role_id'],
-      name: json['name'],
-      username: json['username'],
-      email: json['email'],
-      image: json['image'],
-      about: json['about'],
+      id: json['id'] ?? 0,
+      roleId: json['role_id'] ?? 0,
+      name: json['name'] ?? '',
+      username: json['username'] ?? '',
+      email: json['email'] ?? '',
+      image: json['image'] ?? '',
+      about: json['about'] ?? '',
       lastname: json['lastname'],
       dateOfBirth: json['date_of_birth'],
       position: json['position'],
@@ -265,8 +263,8 @@ class User {
       startDate: json['start_date'],
       phone: json['phone'],
       address: json['address'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
+      createdAt: json['created_at'] ?? '',
+      updatedAt: json['updated_at'] ?? '',
     );
   }
 }
@@ -292,13 +290,13 @@ class Rating {
 
   factory Rating.fromJson(Map<String, dynamic> json) {
     return Rating(
-      id: json['id'],
-      userId: json['user_id'],
-      propertyId: json['property_id'],
-      rating: json['rating'].toDouble(),
-      type: json['type'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
+      id: json['id'] ?? 0,
+      userId: json['user_id'] ?? 0,
+      propertyId: json['property_id'] ?? 0,
+      rating: double.parse(json['rating'] ?? '0'),
+      type: json['type'] ?? '',
+      createdAt: json['created_at'] ?? '',
+      updatedAt: json['updated_at'] ?? '',
     );
   }
 }
