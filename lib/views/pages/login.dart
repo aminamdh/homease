@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:homease/core/config/design/theme.dart';
 import 'package:homease/core/controllers/auth_controller.dart';
 import 'package:homease/views/pages/home.dart';
-import 'package:homease/views/pages/registration_page.dart';
 import 'package:homease/views/widgets/text.dart';
 import 'package:sizer/sizer.dart';
 
@@ -17,7 +16,7 @@ class Login extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Header2(txt: "Login",clr: AppTheme.primaryColor,),
+        title: Header2(txt: 'login'.tr, clr: AppTheme.primaryColor),
       ),
       body: Container(
         padding: EdgeInsets.all(16.0),
@@ -38,37 +37,37 @@ class Login extends StatelessWidget {
                 child: Column(
                   children: [
                     MyTextField(
-                      label: "Username",
-                      errormessage: authController.isUsernameValid
+                      label: 'email'.tr,
+                      errormessage: authController.isEmailValid
                           ? null
-                          : "Enter Username",
+                          : 'enter_email'.tr,
                       onChanged: (value) {
-                        authController.setUserProperty('username', value);
+                        authController.setUserProperty('email', value);
                       },
                     ),
                     SizedBox(height: 10),
                     MyTextField(
                       obscureText: true,
-                      label: "Password",
+                      label: 'password'.tr,
                       errormessage: authController.isPasswordValid
                           ? null
-                          : "Enter Password",
+                          : 'enter_password'.tr,
                       onChanged: (value) {
                         authController.setUserProperty('password', value);
                       },
                     ),
                     SizedBox(height: 50),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState != null &&
                             _formKey.currentState!.validate()) {
-                          authController.login();
+                          await authController.login();
                           if (authController.isLoggedIn) {
                             Get.off(() => HomePage());
                           } else {
                             Get.snackbar(
-                              'Login failed',
-                              'Please check your credentials',
+                              'login_failed'.tr,
+                              'check_credentials'.tr,
                               snackPosition: SnackPosition.BOTTOM,
                             );
                           }
@@ -83,18 +82,8 @@ class Login extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        'Login'.tr,
+                        'login'.tr,
                         style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    TextButton(
-                      onPressed: () {
-                        Get.to(() => RegistrationPage());
-                      },
-                      child: Text(
-                        "Create Account",
-                        style: TextStyle(color: AppTheme.primaryColor),
                       ),
                     ),
                   ],

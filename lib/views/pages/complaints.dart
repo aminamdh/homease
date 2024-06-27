@@ -15,7 +15,7 @@ class ComplaintPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Header2(txt:'Complaints', clr: AppTheme.primaryColor),
+        title: Header2(txt: 'complaints'.tr, clr: AppTheme.primaryColor),
         actions: [
           IconButton(
             icon: Icon(Icons.list, color: AppTheme.primaryColor),
@@ -89,7 +89,7 @@ class _ComplaintFormState extends State<ComplaintForm> {
         children: [
           TextFormField(
             decoration: InputDecoration(
-              labelText: 'Username',
+              labelText: 'username'.tr,
               labelStyle: TextStyle(color: AppTheme.black),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: AppTheme.primaryColor),
@@ -97,7 +97,7 @@ class _ComplaintFormState extends State<ComplaintForm> {
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter your username';
+                return 'enter_username'.tr;
               }
               return null;
             },
@@ -108,7 +108,7 @@ class _ComplaintFormState extends State<ComplaintForm> {
           SizedBox(height: 16.0),
           TextFormField(
             decoration: InputDecoration(
-              labelText: 'Bloc Number',
+              labelText: 'bloc_number'.tr,
               labelStyle: TextStyle(color: AppTheme.black),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: AppTheme.primaryColor),
@@ -116,7 +116,7 @@ class _ComplaintFormState extends State<ComplaintForm> {
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter bloc number';
+                return 'enter_bloc_number'.tr;
               }
               return null;
             },
@@ -127,7 +127,7 @@ class _ComplaintFormState extends State<ComplaintForm> {
           SizedBox(height: 16.0),
           TextFormField(
             decoration: InputDecoration(
-              labelText: 'Complaint Name',
+              labelText: 'complaint_name'.tr,
               labelStyle: TextStyle(color: AppTheme.black),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: AppTheme.primaryColor),
@@ -135,7 +135,7 @@ class _ComplaintFormState extends State<ComplaintForm> {
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter complaint name';
+                return 'enter_complaint_name'.tr;
               }
               return null;
             },
@@ -146,7 +146,7 @@ class _ComplaintFormState extends State<ComplaintForm> {
           SizedBox(height: 16.0),
           DropdownButtonFormField<String>(
             decoration: InputDecoration(
-              labelText: 'Complaint State',
+              labelText: 'complaint_state'.tr,
               labelStyle: TextStyle(color: AppTheme.black),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: AppTheme.primaryColor),
@@ -170,7 +170,7 @@ class _ComplaintFormState extends State<ComplaintForm> {
           TextFormField(
             maxLines: 3,
             decoration: InputDecoration(
-              labelText: 'Complaint Description',
+              labelText: 'complaint_description'.tr,
               labelStyle: TextStyle(color: AppTheme.black),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: AppTheme.primaryColor),
@@ -191,7 +191,7 @@ class _ComplaintFormState extends State<ComplaintForm> {
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter complaint description';
+                return 'enter_complaint_description'.tr;
               }
               return null;
             },
@@ -206,7 +206,7 @@ class _ComplaintFormState extends State<ComplaintForm> {
                 Image.file(_selectedImage!, height: 200),
                 TextButton.icon(
                   icon: Icon(Icons.delete, color: AppTheme.primaryColor),
-                  label: Header4(txt: "Remove", clr: AppTheme.primaryColor),
+                  label: Header4(txt: "remove".tr, clr: AppTheme.primaryColor),
                   onPressed: () {
                     setState(() {
                       _selectedImage = null;
@@ -217,7 +217,7 @@ class _ComplaintFormState extends State<ComplaintForm> {
             ),
           DropdownButtonFormField<String>(
             decoration: InputDecoration(
-              labelText: 'Responsible',
+              labelText: 'responsible'.tr,
               labelStyle: TextStyle(color: AppTheme.black),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: AppTheme.primaryColor),
@@ -267,7 +267,7 @@ class _ComplaintFormState extends State<ComplaintForm> {
                   Get.to(() => ComplaintListPage());
                 }
               },
-              child: Header4(txt: 'Submit Complaint', clr: AppTheme.textFieledFillColor),
+              child: Header4(txt: 'submit_complaint'.tr, clr: AppTheme.textFieledFillColor),
             ),
           ),
         ],

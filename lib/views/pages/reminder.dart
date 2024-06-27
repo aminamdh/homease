@@ -11,7 +11,7 @@ class ReminderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Header2(txt: 'Reminders', clr: AppTheme.primaryColor),
+        title: Header2(txt: 'reminders'.tr, clr: AppTheme.primaryColor),
         // backgroundColor: AppTheme.primaryColor,
       ),
       body: Column(
@@ -34,7 +34,7 @@ class ReminderPage extends StatelessWidget {
           Expanded(
             child: Obx(() {
               if (reminderController.reminders.isEmpty) {
-                return Center(child: Text('No reminders available'));
+                return Center(child: Text('no_reminders_available'.tr));
               } else {
                 return ListView.builder(
                   itemCount: reminderController.reminders.length,

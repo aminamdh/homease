@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:homease/core/config/design/theme.dart';
 import 'package:homease/core/controllers/chat_controller.dart';
-import 'package:homease/core/models/user_model.dart';
 import 'package:homease/views/widgets/text.dart';
 
 class MessagesPage extends StatelessWidget {
@@ -15,8 +14,7 @@ class MessagesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Header2(txt: 'Messages',clr: AppTheme.primaryColor,),
-       
+        title: Header2(txt: 'Messages', clr: AppTheme.primaryColor),
       ),
       body: Obx(() {
         if (chatController.selectedUser.value == null) {
@@ -44,8 +42,8 @@ class UserList extends StatelessWidget {
       itemBuilder: (context, index) {
         final user = chatController.users[index];
         return ListTile(
-          title: Text(user.name),
-          subtitle: Text(user.username),
+          title: Text(user.username), // Adjust to display appropriate user info
+          subtitle: Text(user.email), // Display email or other info as needed
           onTap: () {
             chatController.selectUser(user);
           },

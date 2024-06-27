@@ -14,7 +14,7 @@ class ComplaintPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Header2(txt: 'Complaints', clr: AppTheme.primaryColor),
+        title: Header2(txt: 'complaints'.tr, clr: AppTheme.primaryColor),
         actions: [
           IconButton(
             icon: Icon(Icons.list, color: AppTheme.primaryColor),
@@ -58,7 +58,7 @@ class ComplaintListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Header2(txt: 'Complaint List', clr: AppTheme.primaryColor),
+        title: Header2(txt: 'complaint_list'.tr, clr: AppTheme.primaryColor),
       ),
       body: Column(
         children: [
@@ -97,17 +97,17 @@ class ComplaintListPage extends StatelessWidget {
                               onPressed: () {
                                 _complaintController.updateComplaintStatus(index, "Fixed");
                               },
-                              child: Header4(txt:"Fixed",clr: AppTheme.primaryColor,),
+                              child: Header4(txt: 'fixed'.tr, clr: AppTheme.primaryColor),
                             ),
                             TextButton(
                               onPressed: () {
                                 _complaintController.updateComplaintStatus(index, "Not Fixed");
                               },
-                              child: Header4(txt:"Not Fixed",clr: AppTheme.primaryColor,),
+                              child: Header4(txt: 'not_fixed'.tr, clr: AppTheme.primaryColor),
                             ),
                           ],
                         ),
-                        Text("Status: ${complaint.status}"),
+                        Text("status".tr + ": ${complaint.status}"),
                       ],
                     ),
                   );

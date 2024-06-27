@@ -1,5 +1,3 @@
-// lib/core/controllers/chat_controller.dart
-
 import 'package:get/get.dart';
 import 'package:homease/core/models/message_model.dart';
 import 'package:homease/core/models/user_model.dart';
@@ -16,26 +14,42 @@ class ChatController extends GetxController {
     // Mock data for users
     users.value = [
       User(
+        id: 1,
+        roleId: 1,
         username: 'user1',
         password: 'password1',
-        name: 'User 1',
-        familyName: 'Family 1',
-        wilaya: 'Wilaya 1',
-        residenceName: 'Residence 1',
-        blocNumber: 'Bloc 1',
-        houseNumber: 'House 1',
-        phoneNumber: 'Phone 1',
+        email: 'user1@example.com',
+        image: 'default.png',
+        about: 'About User 1',
+        lastname: 'Family 1',
+        dateOfBirth: '2000-01-01',
+        position: 'Position 1',
+        salary: '1000',
+        startDate: '2024-01-01',
+        phone: '1234567890',
+        address: 'Address 1',
+        createdAt: '2024-06-23',
+        updatedAt: '2024-06-23',
+        imageUrl: 'http://homease.tech/storage/users/default.png',
       ),
       User(
+        id: 2,
+        roleId: 2,
         username: 'user2',
         password: 'password2',
-        name: 'User 2',
-        familyName: 'Family 2',
-        wilaya: 'Wilaya 2',
-        residenceName: 'Residence 2',
-        blocNumber: 'Bloc 2',
-        houseNumber: 'House 2',
-        phoneNumber: 'Phone 2',
+        email: 'user2@example.com',
+        image: 'default.png',
+        about: 'About User 2',
+        lastname: 'Family 2',
+        dateOfBirth: '2000-02-02',
+        position: 'Position 2',
+        salary: '2000',
+        startDate: '2024-02-02',
+        phone: '2345678901',
+        address: 'Address 2',
+        createdAt: '2024-06-23',
+        updatedAt: '2024-06-23',
+        imageUrl: 'http://homease.tech/storage/users/default.png',
       ),
       // Add more users as needed
     ];

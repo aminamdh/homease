@@ -25,7 +25,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Header2(txt: "Account Settings", clr: AppTheme.primaryColor),
+        title: Header2(txt: 'account_settings'.tr, clr: AppTheme.primaryColor),
       ),
       body: Column(
         children: [
@@ -50,7 +50,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
               children: [
                 ListTile(
                   title: Header3(
-                    txt: "Username",
+                    txt: 'username'.tr,
                     clr: _isEditingUsername ? AppTheme.primaryColor : AppTheme.black,
                   ),
                   subtitle: Header4(txt: settingsController.username.value),
@@ -59,7 +59,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                 ),
                 ListTile(
                   title: Header3(
-                    txt: "Password",
+                    txt: 'password'.tr,
                     clr: _isEditingPassword ? AppTheme.primaryColor : AppTheme.black,
                   ),
                   subtitle: Header4(txt: "••••••••"),
@@ -67,7 +67,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                   onTap: () => _editPassword(context, settingsController),
                 ),
                 ListTile(
-                  title: Header3(txt: "Language", clr: AppTheme.black),
+                  title: Header3(txt: 'language'.tr, clr: AppTheme.black),
                   subtitle: Header4(txt: settingsController.language.value),
                   trailing: Icon(Icons.arrow_drop_down, color: AppTheme.primaryColor),
                   onTap: () => _selectLanguage(context, settingsController),
@@ -89,11 +89,11 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Header3(txt: 'Edit Username'),
+        title: Header3(txt: 'edit_username'.tr),
         content: TextField(
           controller: usernameController,
           decoration: InputDecoration(
-            labelText: 'Username',
+            labelText: 'username'.tr,
             labelStyle: TextStyle(color: AppTheme.black),
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: AppTheme.primaryColor),
@@ -113,7 +113,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                 _isEditingUsername = false;
               });
             },
-            child: Header4(txt: 'Save', clr: AppTheme.primaryColor),
+            child: Header4(txt: 'save'.tr, clr: AppTheme.primaryColor),
           ),
         ],
       ),
@@ -133,11 +133,11 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Header3(txt: 'Edit Password'),
+        title: Header3(txt: 'edit_password'.tr),
         content: TextField(
           controller: passwordController,
           decoration: InputDecoration(
-            labelText: 'New Password',
+            labelText: 'password'.tr,
             labelStyle: TextStyle(color: AppTheme.black),
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: AppTheme.primaryColor),
@@ -158,7 +158,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                 _isEditingPassword = false;
               });
             },
-            child: Header4(txt: 'Save', clr: AppTheme.primaryColor),
+            child: Header4(txt: 'save'.tr, clr: AppTheme.primaryColor),
           ),
         ],
       ),
@@ -173,13 +173,13 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Header3(txt: 'Select Language', clr: AppTheme.black),
+        title: Header3(txt: 'select_language'.tr, clr: AppTheme.black),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: <String>['English', 'Arabic', 'French']
+            children: <String>['en_US', 'ar_AR', 'fr_FR']
                 .map((String language) => RadioListTile<String>(
-                      title: Header3(txt: language, clr: AppTheme.black),
+                      title: Header3(txt: language.tr, clr: AppTheme.black),
                       value: language,
                       groupValue: settingsController.language.value,
                       onChanged: (value) {
