@@ -1,19 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:homease/core/config/design/theme.dart';
-import 'package:homease/core/controllers/auth_controller.dart';
+import 'package:homease/core/services/api_service.dart';
 import 'package:homease/views/pages/home.dart';
 import 'package:homease/views/widgets/text.dart';
 import 'package:sizer/sizer.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    AuthController authController = Get.find();
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  _LoginState createState() => _LoginState();
+}
 
+class _LoginState extends State<Login> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final ApiService apiService = ApiService();
+  String email = '';
+  String password = '';
+  bool isLoading = false;
+
+  void setEmail(String value) {
+    setState(() {
+      email = value;
+    });
+  }
+
+  void setPassword(String value) {
+    setState(() {
+      password = value;
+    });
+  }
+
+  Future<void> login() async {
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+      try {
+        final response = await apiService.login(email, password);
+        if (response.isNotEmpty) {
+          Get.off(() => HomePage());
+        } else {
+          Get.snackbar(
+            'login_failed'.tr,
+            'check_credentials'.tr,
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        }
+      } catch (e) {
+        Get.snackbar(
+          'login_failed'.tr,
+          'check_credentials'.tr,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Header2(txt: 'login'.tr, clr: AppTheme.primaryColor),
@@ -38,54 +88,38 @@ class Login extends StatelessWidget {
                   children: [
                     MyTextField(
                       label: 'email'.tr,
-                      errormessage: authController.isEmailValid
-                          ? null
-                          : 'enter_email'.tr,
+                      errormessage: email.isNotEmpty ? null : 'enter_email'.tr,
                       onChanged: (value) {
-                        authController.setUserProperty('email', value);
+                        setEmail(value);
                       },
                     ),
                     SizedBox(height: 10),
                     MyTextField(
                       obscureText: true,
                       label: 'password'.tr,
-                      errormessage: authController.isPasswordValid
-                          ? null
-                          : 'enter_password'.tr,
+                      errormessage: password.isNotEmpty ? null : 'enter_password'.tr,
                       onChanged: (value) {
-                        authController.setUserProperty('password', value);
+                        setPassword(value);
                       },
                     ),
                     SizedBox(height: 50),
-                    ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState != null &&
-                            _formKey.currentState!.validate()) {
-                          await authController.login();
-                          if (authController.isLoggedIn) {
-                            Get.off(() => HomePage());
-                          } else {
-                            Get.snackbar(
-                              'login_failed'.tr,
-                              'check_credentials'.tr,
-                              snackPosition: SnackPosition.BOTTOM,
-                            );
-                          }
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.primaryColor,
-                        padding: EdgeInsets.symmetric(
-                            vertical: 12.0, horizontal: 16.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                    isLoading
+                      ? CircularProgressIndicator()
+                      : ElevatedButton(
+                          onPressed: login,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.primaryColor,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 12.0, horizontal: 16.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                          ),
+                          child: Text(
+                            'login'.tr,
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        'login'.tr,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
                   ],
                 ),
               ),

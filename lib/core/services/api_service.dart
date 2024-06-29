@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:homease/core/models/news_model.dart';
 import 'package:homease/core/models/post_model.dart';
+import 'package:homease/core/models/user_model.dart';
 
 class ApiService {
   final Dio _dio = Dio();
@@ -23,7 +24,7 @@ class ApiService {
   }
 
   Future<void> addComment(int postId, String comment) async {
-    final String url = 'http://homease.tech/api/posts/$postId';
+    final String url = 'http://homease.tech/api/posts/$postId/comments';
     try {
       final response = await _dio.post(url, data: {
         'comment': comment,
@@ -55,21 +56,21 @@ class ApiService {
     }
   }
 
-  Future<Map<String, dynamic>> login(String username, String password) async {
-    const String url = 'http://homease.tech/api/login';  // Change this to your actual login endpoint
+  Future<Map<String, dynamic>> login(String email, String password) async {
+    const String url = 'http://homease.tech/api/login'; 
     try {
       final response = await _dio.post(url, data: {
-        'username': username,
+        'email': email,
         'password': password,
       });
-      print('Login Response: ${response.data}'); // Debug print
+      print('Login Response: ${response.data}');
       if (response.statusCode == 200) {
         return response.data;
       } else {
         throw Exception('Failed to login with status code: ${response.statusCode}');
       }
     } catch (e) {
-      print('Login Error: $e'); // Debug print
+      print('Login Error: $e');
       throw Exception('Failed to login: $e');
     }
   }

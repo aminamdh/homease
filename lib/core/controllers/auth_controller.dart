@@ -1,7 +1,10 @@
+import 'package:get/get.dart';
 import 'package:homease/core/models/user_model.dart';
-import 'package:dio/dio.dart';
+import 'package:homease/core/services/api_service.dart';
 
-class AuthController {
+class AuthController extends GetxController {
+  final ApiService apiService = ApiService();
+
   User user = User(
     id: 0,
     roleId: 0,
@@ -24,7 +27,7 @@ class AuthController {
 
   bool isEmailValid = true;
   bool isPasswordValid = true;
-  bool _loggedIn = false; // Internal state to track login status
+  bool _loggedIn = false;
 
   bool get isLoggedIn => _loggedIn;
 
@@ -57,24 +60,14 @@ class AuthController {
   Future<void> login() async {
     if (validateProperty('email') && validateProperty('password')) {
       try {
-        final Dio dio = Dio();
-        final response = await dio.post(
-          'http://homease.tech/api/login',
-          data: {
-            'email': user.email,
-            'password': user.password,
-          },
-        );
-        
-        if (response.statusCode == 200) {
-          // Assuming the API returns user data on successful login
-          final data = response.data;
-          user = User.fromJson(data);
+        final response = await apiService.login(user.email, user.password);
+        if (response.isNotEmpty) {
+          user = User.fromJson(response);
           _loggedIn = true;
           print('Login successful');
         } else {
           _loggedIn = false;
-          print('Login failed: ${response.statusMessage}');
+          print('Login failed');
         }
       } catch (e) {
         _loggedIn = false;
@@ -84,6 +77,6 @@ class AuthController {
   }
 
   void logout() {
-    _loggedIn = false;  // Set login status to false
+    _loggedIn = false;
   }
 }
