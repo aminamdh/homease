@@ -4,6 +4,7 @@ import 'package:homease/core/config/design/theme.dart';
 import 'package:homease/core/services/api_service.dart';
 import 'package:homease/views/pages/home.dart';
 import 'package:homease/views/widgets/text.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sizer/sizer.dart';
 
 class Login extends StatefulWidget {
@@ -16,6 +17,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ApiService apiService = ApiService();
+  final GetStorage storage = GetStorage();
   String email = '';
   String password = '';
   bool isLoading = false;
@@ -39,7 +41,9 @@ class _LoginState extends State<Login> {
       });
       try {
         final response = await apiService.login(email, password);
-        if (response.isNotEmpty) {
+        if (response['success'] != null) {
+          final token = response['success']['token'];
+          storage.write('token', token);
           Get.off(() => HomePage());
         } else {
           Get.snackbar(
@@ -104,22 +108,22 @@ class _LoginState extends State<Login> {
                     ),
                     SizedBox(height: 50),
                     isLoading
-                      ? CircularProgressIndicator()
-                      : ElevatedButton(
-                          onPressed: login,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppTheme.primaryColor,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 12.0, horizontal: 16.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
+                        ? CircularProgressIndicator()
+                        : ElevatedButton(
+                            onPressed: login,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.primaryColor,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 12.0, horizontal: 16.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                            ),
+                            child: Text(
+                              'login'.tr,
+                              style: TextStyle(color: Colors.white),
                             ),
                           ),
-                          child: Text(
-                            'login'.tr,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
                   ],
                 ),
               ),
@@ -172,8 +176,7 @@ class MyTextField extends StatelessWidget {
           Icons.person,
           color: AppTheme.primaryColor,
         ),
-        contentPadding:
-            EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+        contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
       ),
       style: Get.theme.textTheme.bodyLarge,
       onChanged: onChanged,

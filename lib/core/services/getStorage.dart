@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-
 import '../helpers/getStorage_helper.dart';
 
 class gsService extends GetxService {
@@ -17,5 +16,17 @@ class gsService extends GetxService {
 
   static String getLocale() {
     return GetStorageHelper.readStringGS("locale") ?? "";
+  }
+
+  static void setToken(String token) {
+    GetStorageHelper.writeToken(token);
+  }
+
+  static String? getToken() {
+    return GetStorageHelper.readToken();
+  }
+
+  static void deleteToken() {
+    GetStorageHelper.deleteToken();
   }
 }

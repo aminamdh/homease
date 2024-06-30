@@ -1,43 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:homease/core/config/design/theme.dart';
-import 'package:homease/core/controllers/settings_controller.dart';
+import 'package:homease/core/models/profile_model.dart';
+import 'package:homease/core/services/api_service.dart';
+import 'package:homease/core/services/getStorage.dart';
+
 import 'package:homease/views/widgets/text.dart';
 
-class AccountSettingsPage extends StatefulWidget {
-  AccountSettingsPage() {
-    if (!Get.isRegistered<SettingsController>()) {
-      Get.put(SettingsController());
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  bool _isEditingUsername = false;
+  bool _isEditingPassword = false;
+  String _username = "default_username"; // Add a default or initial value
+  String _password = "••••••••"; // For display purposes
+  String _language = "en_US"; // Add a default language
+  String _email = "";
+  String _about = "";
+  String _image = "";
+  String _errorMessage = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchProfile();
+  }
+
+  void _fetchProfile() async {
+    try {
+      final ApiService apiService = ApiService();
+      final profileData = await apiService.getProfile();
+      final profile = Profile.fromJson(profileData['profile']);
+      setState(() {
+        _username = profile.username;
+        _email = profile.email;
+        _about = profile.about;
+        _image = profile.image;
+        _errorMessage = ""; // Clear any previous error messages
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = "Failed to fetch profile: $e";
+      });
+    }
+  }
+
+  void _logout() async {
+    try {
+      final ApiService apiService = ApiService();
+      await apiService.logout();
+      gsService.deleteToken(); // Clear token
+      Get.offAllNamed('/login'); // Replace with your login route
+    } catch (e) {
+      setState(() {
+        _errorMessage = "Failed to logout: $e";
+      });
     }
   }
 
   @override
-  _AccountSettingsPageState createState() => _AccountSettingsPageState();
-}
-
-class _AccountSettingsPageState extends State<AccountSettingsPage> {
-  bool _isEditingUsername = false;
-  bool _isEditingPassword = false;
-
-  @override
   Widget build(BuildContext context) {
-    final SettingsController settingsController = Get.find<SettingsController>();
-
     return Scaffold(
       appBar: AppBar(
         title: Header2(txt: 'account_settings'.tr, clr: AppTheme.primaryColor),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: _logout,
+          ),
+        ],
       ),
       body: Column(
         children: [
-          // Add the faded line here
           Container(
             height: 2.0,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  AppTheme.primaryColor.withOpacity(0.0), // Transparent color at the top
+                  AppTheme.primaryColor.withOpacity(0.0),
                   AppTheme.primaryColor.withOpacity(0.5),
-                  AppTheme.primaryColor, // Solid color at the bottom
+                  AppTheme.primaryColor,
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -48,14 +93,32 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
             child: ListView(
               padding: const EdgeInsets.all(8.0),
               children: [
+                if (_errorMessage.isNotEmpty) // Display error message if exists
+                  ListTile(
+                    title: Text(
+                      _errorMessage,
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
                 ListTile(
+                  leading: _image.isNotEmpty
+                      ? CircleAvatar(backgroundImage: NetworkImage(_image))
+                      : CircleAvatar(child: Icon(Icons.person)),
                   title: Header3(
                     txt: 'username'.tr,
                     clr: _isEditingUsername ? AppTheme.primaryColor : AppTheme.black,
                   ),
-                  subtitle: Header4(txt: settingsController.username.value),
+                  subtitle: Header4(txt: _username),
                   trailing: Icon(Icons.edit, color: AppTheme.primaryColor),
-                  onTap: () => _editUsername(context, settingsController),
+                  onTap: () => _editUsername(context),
+                ),
+                ListTile(
+                  title: Header3(txt: 'email'.tr, clr: AppTheme.black),
+                  subtitle: Header4(txt: _email),
+                ),
+                ListTile(
+                  title: Header3(txt: 'about'.tr, clr: AppTheme.black),
+                  subtitle: Header4(txt: _about),
                 ),
                 ListTile(
                   title: Header3(
@@ -64,13 +127,13 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                   ),
                   subtitle: Header4(txt: "••••••••"),
                   trailing: Icon(Icons.edit, color: AppTheme.primaryColor),
-                  onTap: () => _editPassword(context, settingsController),
+                  onTap: () => _editPassword(context),
                 ),
                 ListTile(
                   title: Header3(txt: 'language'.tr, clr: AppTheme.black),
-                  subtitle: Header4(txt: settingsController.language.value),
+                  subtitle: Header4(txt: _language),
                   trailing: Icon(Icons.arrow_drop_down, color: AppTheme.primaryColor),
-                  onTap: () => _selectLanguage(context, settingsController),
+                  onTap: () => _selectLanguage(context),
                 ),
               ],
             ),
@@ -80,12 +143,12 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
     );
   }
 
-  void _editUsername(BuildContext context, SettingsController settingsController) {
+  void _editUsername(BuildContext context) {
     setState(() {
       _isEditingUsername = true;
     });
 
-    TextEditingController usernameController = TextEditingController(text: settingsController.username.value);
+    TextEditingController usernameController = TextEditingController(text: _username);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -107,11 +170,11 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
         actions: [
           TextButton(
             onPressed: () {
-              settingsController.updateUsername(usernameController.text);
-              Navigator.of(context).pop();
               setState(() {
+                _username = usernameController.text;
                 _isEditingUsername = false;
               });
+              Navigator.of(context).pop();
             },
             child: Header4(txt: 'save'.tr, clr: AppTheme.primaryColor),
           ),
@@ -124,7 +187,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
     });
   }
 
-  void _editPassword(BuildContext context, SettingsController settingsController) {
+  void _editPassword(BuildContext context) {
     setState(() {
       _isEditingPassword = true;
     });
@@ -152,11 +215,11 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
         actions: [
           TextButton(
             onPressed: () {
-              settingsController.updatePassword(passwordController.text);
-              Navigator.of(context).pop();
               setState(() {
+                _password = passwordController.text;
                 _isEditingPassword = false;
               });
+              Navigator.of(context).pop();
             },
             child: Header4(txt: 'save'.tr, clr: AppTheme.primaryColor),
           ),
@@ -169,7 +232,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
     });
   }
 
-  void _selectLanguage(BuildContext context, SettingsController settingsController) {
+  void _selectLanguage(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -181,14 +244,16 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                 .map((String language) => RadioListTile<String>(
                       title: Header3(txt: language.tr, clr: AppTheme.black),
                       value: language,
-                      groupValue: settingsController.language.value,
+                      groupValue: _language,
                       onChanged: (value) {
                         if (value != null) {
-                          settingsController.changeLanguage(value);
+                          setState(() {
+                            _language = value;
+                          });
                           Navigator.of(context).pop();
                         }
                       },
-                      activeColor: AppTheme.primaryColor, // Set the active color here
+                      activeColor: AppTheme.primaryColor,
                     ))
                 .toList(),
           ),

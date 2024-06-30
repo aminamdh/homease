@@ -2,6 +2,7 @@ import 'package:get_storage/get_storage.dart';
 
 class GetStorageHelper {
   static final GSinstance = GetStorage();
+  
   static String? readStringGS(String key) {
     return GSinstance.read(key);
   }
@@ -24,5 +25,17 @@ class GetStorageHelper {
 
   static void writeboolGS(String key, bool value) {
     GSinstance.write(key, value);
+  }
+
+  static void writeToken(String token) {
+    GSinstance.write('token', token);
+  }
+
+  static String? readToken() {
+    return GSinstance.read('token');
+  }
+
+  static void deleteToken() {
+    GSinstance.remove('token');
   }
 }

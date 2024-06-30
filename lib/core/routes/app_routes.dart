@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:homease/core/controllers/auth_controller.dart';
 import 'package:homease/main.dart';
-import 'package:homease/views/pages/account.dart';
+import 'package:homease/views/pages/profile.dart';
 import 'package:homease/views/pages/complaints.dart';
 import 'package:homease/views/pages/login.dart';
 import 'package:homease/views/pages/home.dart';
 import 'package:homease/views/pages/market.dart';
-import 'package:homease/views/pages/reminder.dart';
+import 'package:homease/views/pages/payment.dart';
 
 
 approutes() => [
@@ -30,7 +30,7 @@ approutes() => [
           binding: BindingsBuilder(() {})),
            GetPage(
           name: "/reminder",
-          page: () => ReminderPage(),
+          page: () => PaymentPage(),
           binding: BindingsBuilder(() {})),
            GetPage(
           name: "/complaint",
@@ -39,7 +39,7 @@ approutes() => [
           
             GetPage(
           name: "/account",
-          page: () => AccountSettingsPage(),
+          page: () => ProfilePage(),
           binding: BindingsBuilder(() {})),
 
 

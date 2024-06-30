@@ -3,10 +3,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:homease/core/config/design/theme.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:homease/views/pages/account.dart';
+import 'package:homease/views/pages/profile.dart';
 import 'package:homease/views/pages/complaints.dart';
 import 'package:homease/views/pages/messages.dart';
-import 'package:homease/views/pages/reminder.dart';
+import 'package:homease/views/pages/payment.dart';
 import 'package:homease/views/pages/market.dart';
 import 'package:homease/core/models/news_model.dart'; // Updated import
 import 'package:homease/views/widgets/text.dart';
@@ -275,10 +275,10 @@ class _HomePageState extends State<HomePage> {
               Get.to(() => MessagesPage());
               break;
             case 3:
-              Get.to(() => ReminderPage());
+              Get.to(() => PaymentPage());
               break;
             case 4:
-              Get.to(() => AccountSettingsPage());
+              Get.to(() =>ProfilePage());
               break;
           }
         },
