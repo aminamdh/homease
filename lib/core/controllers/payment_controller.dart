@@ -53,13 +53,19 @@ class PaymentController extends GetxController {
       print('Error fetching payments: $e');
     }
   }
-
-  void updatePayment(int id, Payment payment) async {
-    try {
-      await _apiService.updatePayment(id, payment);
-      fetchPayments(); // Refresh payments list after update
-    } catch (e) {
-      print('Error updating payment: $e');
-    }
+void updatePayment(int id, Payment payment) async {
+  try {
+    print('Updating payment with id: $id'); // Debug print
+    print('Payment data: ${payment.toJson()}'); // Debug print
+    
+    await _apiService.updatePayment(id, payment);
+    
+    print('Payment update successful, fetching updated payments'); // Debug print
+    fetchPayments(); // Refresh payments list after update
+    print("Payment updated successfully");
+  } catch (e) {
+    print('Error updating payment: $e');
   }
+}
+
 }

@@ -1,28 +1,33 @@
-class Comment {
-  final int id;
-  final int postId;
-  final int userId;
-  final String body;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+class Complaint {
+  String userName;
+  String blocNumber;
+  String complaintName;
+  String complaintState;
+  String complaintDescription;
+  String responsible;
+  String? attachedImage;
+  String status;
 
-  Comment({
-    required this.id,
-    required this.postId,
-    required this.userId,
-    required this.body,
-    required this.createdAt,
-    required this.updatedAt,
+  Complaint({
+    required this.userName,
+    required this.blocNumber,
+    required this.complaintName,
+    required this.complaintState,
+    required this.complaintDescription,
+    required this.responsible,
+    this.attachedImage,
+    this.status = 'open',
   });
 
-  factory Comment.fromJson(Map<String, dynamic> json) {
-    return Comment(
-      id: json['id'],
-      postId: json['post_id'],
-      userId: json['user_id'],
-      body: json['body'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+  factory Complaint.fromMap(Map<String, dynamic> map) {
+    return Complaint(
+      userName: map['user_id'].toString(), // Assuming user_id is used as userName
+      blocNumber: map['address'],
+      complaintName: map['title'],
+      complaintState: map['category'],
+      complaintDescription: map['description'],
+      responsible: map['priority'],
+      status: map['status'],
     );
   }
 }

@@ -57,6 +57,9 @@ dependencies:
   timeago: ^3.6.1
   get_storage: ^2.1.1
   shared_preferences: ^2.2.3
+  logger: ^2.3.0
+  uuid: ^4.4.0
+ 
 
 dev_dependencies:
   flutter_test:
